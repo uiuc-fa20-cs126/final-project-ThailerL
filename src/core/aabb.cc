@@ -5,12 +5,12 @@
 
 namespace game {
 
-AABB::AABB(const ci::vec2& half_size,
+AABB::AABB(const ci::vec2& size,
            const ci::vec2& center,
            const ci::vec2& velocity,
            const ci::vec2& acceleration) :
     center_(center),
-    half_size_(half_size),
+    size_(size),
     velocity_(velocity),
     acceleration_(acceleration) {
 }
