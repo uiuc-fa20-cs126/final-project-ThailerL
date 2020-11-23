@@ -28,9 +28,9 @@ class GameApp : public ci::app::App {
   std::vector<int> pressed_key_codes_;
 
   const std::vector<AABB> kPlatforms = {{{1500, 30}, {750, 15}},
-                                        {{1500, 30}, {750, 500}},
+                                        {{300, 30}, {750, 150}},
                                         {{1500, 30}, {750, 600}}};
-  const Level kLevel = {kPlatforms, {50, 200}};
+  const Level kLevel = {kPlatforms, {50, 500}};
 };
 
 }  // namespace visualizer

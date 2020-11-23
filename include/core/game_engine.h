@@ -24,7 +24,7 @@ class GameEngine {
 
   const ci::vec2 kPlayerSize = {30, 60};
   const float kPlayerSpeed = 3;
-  const float kPlayerJump = 3;
+  const float kPlayerJump = 6;
   const float kGravity = -.1f;
 };
 

@@ -20,7 +20,9 @@ void GameEngine::UpdatePressedKeys(std::vector<int> key_codes) {
   for (int code : key_codes) {
     switch (code) {
       case ci::app::KeyEvent::KEY_w:
-        player_.Velocity().y = kPlayerJump;
+        if (player_.Velocity().y == 0) {
+          player_.Velocity().y = kPlayerJump;
+        }
         break;
       case ci::app::KeyEvent::KEY_a:
         player_.Velocity().x = -kPlayerSpeed;

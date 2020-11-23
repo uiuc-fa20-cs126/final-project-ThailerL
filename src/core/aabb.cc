@@ -32,8 +32,8 @@ ci::vec2& AABB::Acceleration() {
 }
 
 void AABB::Update() {
-  center_ += velocity_;
   velocity_ += acceleration_;
+  center_ += velocity_;
 }
 
 }  // namespace game
