@@ -6,10 +6,10 @@ namespace game {
 
 class AABB {
  public:
-  AABB(const ci::vec2& size,
-       const ci::vec2& center,
-       const ci::vec2& velocity = {0, 0},
-       const ci::vec2& acceleration = {0, 0});
+  AABB(const ci::vec2& size = {},
+       const ci::vec2& center = {},
+       const ci::vec2& velocity = {},
+       const ci::vec2& acceleration = {});
 
   ci::vec2& Size();
   ci::vec2& Position();

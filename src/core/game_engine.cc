@@ -8,32 +8,29 @@ void GameEngine::LoadLevel(const Level& level) {
 }
 
 void GameEngine::Update() {
-  RepelPlayerFromPlatforms();
   player_.Update();
+  RepelPlayerFromPlatforms();
   for (auto& platform : platforms_) {
     platform.Update();
   }
 }
 
-void GameEngine::UseInputs(std::vector<ci::app::KeyEvent> events) {
-  for (const auto& event : events) {
-    if (std::find(last_events_.begin(), last_events_.end(), event)
-        == last_events_.end()) {
-      switch (event.getCode()) {
-        case ci::app::KeyEvent::KEY_w:
-          player_.Velocity().y = kPlayerJump;
+void GameEngine::UpdatePressedKeys(std::vector<int> key_codes) {
+  for (int code : key_codes) {
+    if (std::find(last_codes_.begin(), last_codes_.end(), code)
+        == last_codes_.end()) {
+      switch (code) {
+        case ci::app::KeyEvent::KEY_w:player_.Velocity().y = kPlayerJump;
           break;
-        case ci::app::KeyEvent::KEY_a:
-          player_.Velocity().x = -kPlayerSpeed;
+        case ci::app::KeyEvent::KEY_a:player_.Velocity().x = -kPlayerSpeed;
           break;
-        case ci::app::KeyEvent::KEY_d:
-          player_.Velocity().x = kPlayerSpeed;
+        case ci::app::KeyEvent::KEY_d:player_.Velocity().x = kPlayerSpeed;
           break;
       }
     }
   }
 
-  last_events_ = events;
+  last_codes_ = key_codes;
 }
 
 AABB GameEngine::GetPlayer() const {
@@ -60,11 +57,10 @@ void GameEngine::RepelPlayerFromPlatforms() {
 }
 
 bool GameEngine::Colliding(AABB& box1, AABB& box2) {
-  return box1.Position().x <= box2.Position().x + box2.Size().x / 2
-      && box1.Position().x + box1.Size().x / 2 > box2.Position().x
-      && box1.Position().y < box2.Position().y + box2.Size().y / 2
-      && box1.Position().y + box1.Size().y / 2 > box2.Position().y;
+  return std::abs(box1.Position().x - box2.Position().x) * 2
+      <= (box1.Size().x + box2.Size().x)
+      && std::abs(box1.Position().y - box2.Position().y) * 2
+          <= (box1.Size().y + box2.Size().y);
 }
-
 
 }  // namespace game

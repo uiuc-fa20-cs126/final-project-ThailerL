@@ -15,6 +15,10 @@ AABB::AABB(const ci::vec2& size,
     acceleration_(acceleration) {
 }
 
+ci::vec2& AABB::Size() {
+  return size_;
+}
+
 ci::vec2& AABB::Position() {
   return center_;
 }

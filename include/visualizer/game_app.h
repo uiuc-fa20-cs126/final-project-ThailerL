@@ -16,6 +16,8 @@ class GameApp : public ci::app::App {
 
   void draw() override;
   void update() override;
+  void keyDown(ci::app::KeyEvent event) override;
+  void keyUp(ci::app::KeyEvent event) override;
 
   const glm::vec2 kWindowSize = {1500.0f, 900.0f};
   const float kMargin = 10;
@@ -23,6 +25,12 @@ class GameApp : public ci::app::App {
  private:
   GameEngine game_engine_;
   Panel window_;
+  std::vector<int> pressed_key_codes_;
+
+  const std::vector<AABB> kPlatforms = {{{1500, 30}, {750, 15}},
+                                        {{1500, 30}, {750, 500}},
+                                        {{1500, 30}, {750, 600}}};
+  const Level kLevel = {kPlatforms, {50, 200}};
 };
 
 }  // namespace visualizer
