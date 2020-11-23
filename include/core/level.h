@@ -7,14 +7,14 @@ namespace game {
 
 class Level {
  public:
-  Level(const std::vector<AABB>& platforms, const ci::vec2 player_start);
+  Level(const std::vector<AABB>& platforms, const ci::vec2& player_start);
 
-  std::vector<AABB> GetPlatforms();
-  ci::vec2 GetPlayerStart();
+  std::vector<AABB> GetPlatforms() const;
+  ci::vec2 GetPlayerStart() const;
 
  private:
-  std::vector<AABB> platforms_;
-  ci::vec2 player_start_;
+  const std::vector<AABB> platforms_;
+  const ci::vec2 player_start_;
 };
 
 }  // namespace game
