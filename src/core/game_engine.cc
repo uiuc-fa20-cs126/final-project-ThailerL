@@ -16,21 +16,20 @@ void GameEngine::Update() {
 }
 
 void GameEngine::UpdatePressedKeys(std::vector<int> key_codes) {
+  player_.Velocity().x = 0;
   for (int code : key_codes) {
-    if (std::find(last_codes_.begin(), last_codes_.end(), code)
-        == last_codes_.end()) {
-      switch (code) {
-        case ci::app::KeyEvent::KEY_w:player_.Velocity().y = kPlayerJump;
-          break;
-        case ci::app::KeyEvent::KEY_a:player_.Velocity().x = -kPlayerSpeed;
-          break;
-        case ci::app::KeyEvent::KEY_d:player_.Velocity().x = kPlayerSpeed;
-          break;
-      }
+    switch (code) {
+      case ci::app::KeyEvent::KEY_w:
+        player_.Velocity().y = kPlayerJump;
+        break;
+      case ci::app::KeyEvent::KEY_a:
+        player_.Velocity().x = -kPlayerSpeed;
+        break;
+      case ci::app::KeyEvent::KEY_d:
+        player_.Velocity().x = kPlayerSpeed;
+        break;
     }
   }
-
-  last_codes_ = key_codes;
 }
 
 AABB GameEngine::GetPlayer() const {
@@ -58,9 +57,9 @@ void GameEngine::RepelPlayerFromPlatforms() {
 
 bool GameEngine::Colliding(AABB& box1, AABB& box2) {
   return std::abs(box1.Position().x - box2.Position().x) * 2
-      <= (box1.Size().x + box2.Size().x)
+      < (box1.Size().x + box2.Size().x)
       && std::abs(box1.Position().y - box2.Position().y) * 2
-          <= (box1.Size().y + box2.Size().y);
+          < (box1.Size().y + box2.Size().y);
 }
 
 }  // namespace game

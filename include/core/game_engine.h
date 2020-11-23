@@ -18,14 +18,13 @@ class GameEngine {
  private:
   AABB player_;
   std::vector<AABB> platforms_;
-  std::vector<int> last_codes_;
 
   void RepelPlayerFromPlatforms();
   bool Colliding(AABB& box1, AABB& box2);
 
   const ci::vec2 kPlayerSize = {30, 60};
   const float kPlayerSpeed = 3;
-  const float kPlayerJump = 10;
+  const float kPlayerJump = 3;
   const float kGravity = -.1f;
 };
 
