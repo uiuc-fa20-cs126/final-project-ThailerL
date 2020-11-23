@@ -10,10 +10,10 @@ namespace game {
 class GameEngine {
  public:
   void LoadLevel(const Level& level);
-
   void Update();
-
   void UseInputs(std::vector<ci::app::KeyEvent> events);
+  AABB GetPlayer() const;
+  std::vector<AABB> GetPlatforms() const;
 
  private:
   AABB player_;

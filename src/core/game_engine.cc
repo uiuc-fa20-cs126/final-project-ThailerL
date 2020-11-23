@@ -36,6 +36,14 @@ void GameEngine::UseInputs(std::vector<ci::app::KeyEvent> events) {
   last_events_ = events;
 }
 
+AABB GameEngine::GetPlayer() const {
+  return player_;
+}
+
+std::vector<AABB> GameEngine::GetPlatforms() const {
+  return platforms_;
+}
+
 void GameEngine::RepelPlayerFromPlatforms() {
   for (auto& platform : platforms_) {
     if (Colliding(player_, platform)) {
@@ -57,5 +65,6 @@ bool GameEngine::Colliding(AABB& box1, AABB& box2) {
       && box1.Position().y < box2.Position().y + box2.Size().y / 2
       && box1.Position().y + box1.Size().y / 2 > box2.Position().y;
 }
+
 
 }  // namespace game
