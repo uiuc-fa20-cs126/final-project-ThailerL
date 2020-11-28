@@ -45,14 +45,32 @@ std::vector<AABB> GameEngine::GetPlatforms() const {
 void GameEngine::RepelPlayerFromPlatforms() {
   for (auto& platform : platforms_) {
     if (Colliding(player_, platform)) {
-      if (player_.Position().y > platform.Position().y) {
-        player_.Position().y = platform.Position().y
-            + (player_.Size().y + platform.Size().y) / 2;
-      } else {
-        player_.Position().y = platform.Position().y
-            - (player_.Size().y + platform.Size().y) / 2;
+      auto player_feet_y = player_.Position().y - player_.Size().y / 2;
+      auto player_head_y = player_.Position().y + player_.Size().y / 2;
+      auto player_left_x = player_.Position().x - player_.Size().x / 2;
+      auto player_right_x = player_.Position().x + player_.Size().x / 2;
+      auto platform_bot_y = platform.Position().y - platform.Size().y / 2;
+      auto platform_top_y = platform.Position().y + platform.Size().y / 2;
+      auto platform_left_x = platform.Position().x - platform.Size().x / 2;
+      auto platform_right_x = platform.Position().x + platform.Size().x / 2;
+
+      if (player_.Velocity().y < 0
+          && player_feet_y - player_.Velocity().y >= platform_top_y) {
+        player_.Velocity().y = 0;
+        player_.Position().y = platform_top_y + player_.Size().y / 2;
+      } else if (player_.Velocity().y > 0
+          && player_head_y - player_.Velocity().y <= platform_bot_y) {
+        player_.Velocity().y = 0;
+        player_.Position().y = platform_bot_y - player_.Size().y / 2;
+      } else if (player_.Velocity().x > 0
+          && player_right_x - player_.Velocity().x <= platform_left_x) {
+        player_.Velocity().x = 0;
+        player_.Position().x = platform_left_x - player_.Size().x / 2;
+      } else if (player_.Velocity().x < 0
+          && player_left_x - player_.Velocity().x >= platform_left_x) {
+        player_.Velocity().x = 0;
+        player_.Position().x = platform_right_x + player_.Size().x / 2;
       }
-      player_.Velocity().y = 0;
     }
   }
 }
