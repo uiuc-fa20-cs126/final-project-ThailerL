@@ -18,6 +18,7 @@ class GameEngine {
  private:
   AABB player_;
   std::vector<AABB> platforms_;
+  bool player_trying_to_jump_;
 
   void RepelPlayerFromPlatforms();
   bool Colliding(AABB& box1, AABB& box2);

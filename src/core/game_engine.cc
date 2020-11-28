@@ -17,12 +17,11 @@ void GameEngine::Update() {
 
 void GameEngine::UpdatePressedKeys(std::vector<int> key_codes) {
   player_.Velocity().x = 0;
+  player_trying_to_jump_ = false;
   for (int code : key_codes) {
     switch (code) {
       case ci::app::KeyEvent::KEY_w:
-        if (player_.Velocity().y == 0) {
-          player_.Velocity().y = kPlayerJump;
-        }
+        player_trying_to_jump_ = true;
         break;
       case ci::app::KeyEvent::KEY_a:
         player_.Velocity().x = -kPlayerSpeed;
@@ -58,6 +57,9 @@ void GameEngine::RepelPlayerFromPlatforms() {
           && player_feet_y - player_.Velocity().y >= platform_top_y) {
         player_.Velocity().y = 0;
         player_.Position().y = platform_top_y + player_.Size().y / 2;
+        if (player_trying_to_jump_) {
+          player_.Velocity().y = kPlayerJump;
+        }
       } else if (player_.Velocity().y > 0
           && player_head_y - player_.Velocity().y <= platform_bot_y) {
         player_.Velocity().y = 0;
