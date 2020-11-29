@@ -15,12 +15,16 @@ class AABB {
        const ci::vec2& acceleration = {});
   // Gets a reference to the size vector of the AABB.
   ci::vec2& Size();
+  ci::vec2 Size() const;
   // Gets a reference to the center position vector of the AABB.
   ci::vec2& Position();
+  ci::vec2 Position() const;
   // Gets a reference to the velocity vector of the AABB.
   ci::vec2& Velocity();
+  ci::vec2 Velocity() const;
   // Gets a reference to the acceleration vector of the AABB.
   ci::vec2& Acceleration();
+  ci::vec2 Acceleration() const;
   // Updates the velocity based on acceleration and the position based on the
   // velocity.
   void Update();

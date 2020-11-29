@@ -36,4 +36,20 @@ void AABB::Update() {
   center_ += velocity_;
 }
 
+ci::vec2 AABB::Size() const {
+  return size_;
+}
+
+ci::vec2 AABB::Position() const {
+  return center_;
+}
+
+ci::vec2 AABB::Velocity() const {
+  return velocity_;
+}
+
+ci::vec2 AABB::Acceleration() const {
+  return acceleration_;
+}
+
 }  // namespace game
