@@ -16,12 +16,12 @@ void GameDisplay::Draw() const {
   ci::gl::color(ci::Color("red"));
   DrawAABB(game_engine_.GetPlayer());
   ci::gl::color(ci::Color("black"));
-  for (auto platform : game_engine_.GetPlatforms()) {
+  for (const auto& platform : game_engine_.GetPlatforms()) {
     DrawAABB(platform);
   }
 }
 
-void GameDisplay::DrawAABB(AABB box) const {
+void GameDisplay::DrawAABB(const AABB& box) const {
   ci::vec2 position = box.Position();
   position.y = dimensions_.y - position.y;
   ci::vec2 top_left(position - box.Size() / 2.0f);

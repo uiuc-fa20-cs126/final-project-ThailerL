@@ -18,7 +18,7 @@ class GameEngine {
   void Update();
   // Gives the game engine a new set up keys that are being pressed. Used
   // when a new key is pressed or a key is let go.
-  void UpdatePressedKeys(std::vector<int> key_codes);
+  void UpdatePressedKeys(const std::vector<int>& key_codes);
   // Gets the player's AABB object.
   AABB GetPlayer() const;
   // Gets the collection of AABB platforms in the game.
@@ -33,7 +33,7 @@ class GameEngine {
   // side at which they are touching it so that they don't go into the platform.
   void RepelPlayerFromPlatforms();
   // Returns true if 2 AABB's are touching.
-  bool Colliding(AABB& box1, AABB& box2);
+  static bool Colliding(const AABB& box1, const AABB& box2);
 
   const ci::vec2 kPlayerSize = {30, 60};
   // The horizontal speed of the player.

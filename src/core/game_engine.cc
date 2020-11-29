@@ -5,6 +5,7 @@ namespace game {
 void GameEngine::LoadLevel(const Level& level) {
   player_ = AABB(kPlayerSize, level.GetPlayerStart(), {0, 0}, {0, kGravity});
   platforms_ = level.GetPlatforms();
+  player_trying_to_jump_ = false;
 }
 
 void GameEngine::Update() {
@@ -15,7 +16,7 @@ void GameEngine::Update() {
   }
 }
 
-void GameEngine::UpdatePressedKeys(std::vector<int> key_codes) {
+void GameEngine::UpdatePressedKeys(const std::vector<int>& key_codes) {
   player_.Velocity().x = 0;
   player_trying_to_jump_ = false;
   for (int code : key_codes) {
@@ -42,7 +43,7 @@ std::vector<AABB> GameEngine::GetPlatforms() const {
 }
 
 void GameEngine::RepelPlayerFromPlatforms() {
-  for (auto& platform : platforms_) {
+  for (const auto& platform : platforms_) {
     if (Colliding(player_, platform)) {
       auto player_feet_y = player_.Position().y - player_.Size().y / 2;
       auto player_head_y = player_.Position().y + player_.Size().y / 2;
@@ -53,7 +54,9 @@ void GameEngine::RepelPlayerFromPlatforms() {
       auto platform_left_x = platform.Position().x - platform.Size().x / 2;
       auto platform_right_x = platform.Position().x + platform.Size().x / 2;
 
-      if (player_.Velocity().y < 0
+      // If the player goes down into the top of the platform, put them at
+      // the top of it and jump if they want to, and similar for other cases.
+      if (player_.Velocity().y <= 0
           && player_feet_y - player_.Velocity().y >= platform_top_y) {
         player_.Velocity().y = 0;
         player_.Position().y = platform_top_y + player_.Size().y / 2;
@@ -66,18 +69,16 @@ void GameEngine::RepelPlayerFromPlatforms() {
         player_.Position().y = platform_bot_y - player_.Size().y / 2;
       } else if (player_.Velocity().x > 0
           && player_right_x - player_.Velocity().x <= platform_left_x) {
-        player_.Velocity().x = 0;
         player_.Position().x = platform_left_x - player_.Size().x / 2;
       } else if (player_.Velocity().x < 0
           && player_left_x - player_.Velocity().x >= platform_left_x) {
-        player_.Velocity().x = 0;
         player_.Position().x = platform_right_x + player_.Size().x / 2;
       }
     }
   }
 }
 
-bool GameEngine::Colliding(AABB& box1, AABB& box2) {
+bool GameEngine::Colliding(const AABB& box1, const AABB& box2) {
   return std::abs(box1.Position().x - box2.Position().x) * 2
       < (box1.Size().x + box2.Size().x)
       && std::abs(box1.Position().y - box2.Position().y) * 2

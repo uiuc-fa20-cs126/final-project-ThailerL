@@ -22,7 +22,7 @@ class GameDisplay : public Component {
   const GameEngine& game_engine_;
 
   // Draws one AABB to the window.
-  void DrawAABB(AABB box) const;
+  void DrawAABB(const AABB& box) const;
 };
 
 }  // namespace visualizer
