@@ -10,7 +10,11 @@ namespace game {
 class Level {
  public:
   // Constructs a level with given platforms and player starting location.
-  Level(const std::vector<AABB>& platforms, const ci::vec2& player_start);
+  Level(const std::vector<AABB>& platforms, const ci::vec2& player_start,
+        const ci::vec2& dimensions);
+  // Gets the dimensions of the level, with (0, 0) being the bottom left and
+  // the dimensions vector being the top right of the level.
+  ci::vec2 GetDimensions() const;
   // Gets the collection of platforms in the level.
   std::vector<AABB> GetPlatforms() const;
   // The the position that the player starts in the level.
@@ -19,6 +23,7 @@ class Level {
  private:
   const std::vector<AABB> platforms_;
   const ci::vec2 player_start_;
+  const ci::vec2 dimensions_;
 };
 
 }  // namespace game
