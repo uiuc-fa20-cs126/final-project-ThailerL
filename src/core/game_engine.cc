@@ -14,6 +14,7 @@ void GameEngine::LoadLevel(const json& level) {
   }
   level_.goal = {Vec2(level["goal"]["size"]), Vec2(level["goal"]["center"])};
   player_trying_to_jump_ = false;
+  level_over_ = false;
 }
 
 void GameEngine::Update() {
@@ -21,6 +22,10 @@ void GameEngine::Update() {
   RepelPlayerFromPlatforms();
   for (auto& platform : level_.platforms) {
     platform.Update();
+  }
+
+  if (Colliding(player_, level_.goal)) {
+    level_over_ = true;
   }
 }
 
@@ -45,6 +50,10 @@ AABB GameEngine::GetPlayer() const {
 
 GameEngine::Level GameEngine::GetLevel() const {
   return level_;
+}
+
+bool GameEngine::GetLevelOver() const {
+  return level_over_;
 }
 
 void GameEngine::RepelPlayerFromPlatforms() {

@@ -27,7 +27,9 @@ void GameApp::draw() {
 }
 
 void GameApp::update() {
-  game_engine_.Update();
+  if (!game_engine_.GetLevelOver()) {
+    game_engine_.Update();
+  }
 }
 
 void GameApp::keyDown(ci::app::KeyEvent event) {

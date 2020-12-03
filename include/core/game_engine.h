@@ -29,11 +29,14 @@ class GameEngine {
   AABB GetPlayer() const;
   // Gets the level information from the game engine.
   Level GetLevel() const;
+  // Returns true if the player has completed the level.
+  bool GetLevelOver() const;
 
  private:
   AABB player_;
   Level level_;
   bool player_trying_to_jump_;
+  bool level_over_;
 
   // If the player is touching any platform, the player is pushed too the
   // side at which they are touching it so that they don't go into the platform.
