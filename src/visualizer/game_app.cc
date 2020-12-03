@@ -45,6 +45,12 @@ void GameApp::keyUp(ci::app::KeyEvent event) {
   game_engine_.UpdatePressedKeys(pressed_key_codes_);
 }
 
+void GameApp::mouseDown(ci::app::MouseEvent event) {
+  if(event.isLeft()) {
+
+  }
+}
+
 }  // namespace visualizer
 
 }  // namespace game

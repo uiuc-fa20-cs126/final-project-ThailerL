@@ -31,10 +31,12 @@ class GameEngine {
   Level GetLevel() const;
   // Returns true if the player has completed the level.
   bool GetLevelOver() const;
+  void ShootProjectileTowards(const ci::vec2& target);
 
  private:
   AABB player_;
   Level level_;
+  AABB projectile_;
   bool player_trying_to_jump_;
   bool level_over_;
 
@@ -53,6 +55,8 @@ class GameEngine {
   const float kPlayerJump = .5f;
   // The constant vertical acceleration on the player.
   const float kGravity = -.02f;
+  const ci::vec2 kProjectileSize = {.2, .2};
+  const float kProjectileSpeed = 2.0f;
 };
 
 }  // namespace game

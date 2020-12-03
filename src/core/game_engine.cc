@@ -52,6 +52,13 @@ GameEngine::Level GameEngine::GetLevel() const {
   return level_;
 }
 
+void GameEngine::ShootProjectileTowards(const glm::vec2& target) {
+  ci::vec2 direction = ci::normalize(target - player_.Position());
+  projectile_ = {kProjectileSize,
+                 player_.Position(),
+                 kProjectileSpeed * direction};
+}
+
 bool GameEngine::GetLevelOver() const {
   return level_over_;
 }

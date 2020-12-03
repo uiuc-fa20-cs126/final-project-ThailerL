@@ -18,6 +18,7 @@ class GameApp : public ci::app::App {
   void update() override;
   void keyDown(ci::app::KeyEvent event) override;
   void keyUp(ci::app::KeyEvent event) override;
+  void mouseDown(ci::app::MouseEvent event) override;
 
   const glm::vec2 kWindowSize = {1500.0f, 900.0f};
   const float kMargin = 10;
