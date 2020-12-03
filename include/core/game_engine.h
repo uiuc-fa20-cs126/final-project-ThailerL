@@ -1,9 +1,9 @@
 #pragma once
 
 #include <core/aabb.h>
-#include <core/level.h>
 #include <cinder/app/KeyEvent.h>
 #include "cinder/gl/gl.h"
+#include <json.hpp>
 
 namespace game {
 
@@ -12,7 +12,7 @@ namespace game {
 class GameEngine {
  public:
   // Loads a level and sets up the player and platforms in the level.
-  void LoadLevel(const Level& level);
+  void LoadLevel(const nlohmann::json& json);
   // Updates the game engine by moving the player and all the platforms,
   // while applying physics to the player.
   void Update();
@@ -34,6 +34,8 @@ class GameEngine {
   void RepelPlayerFromPlatforms();
   // Returns true if 2 AABB's are touching.
   static bool Colliding(const AABB& box1, const AABB& box2);
+  // Returns a ci::vec2 created by the 2 values in a std::vector.
+  static ci::vec2 Vec2(const std::vector<float>& v);
 
   const ci::vec2 kPlayerSize = {30, 60};
   // The horizontal speed of the player.

@@ -27,10 +27,8 @@ class GameApp : public ci::app::App {
   Panel window_;
   std::vector<int> pressed_key_codes_;
 
-  const std::vector<AABB> kPlatforms = {{{1500, 30}, {750, 15}},
-                                        {{300, 30}, {750, 150}},
-                                        {{1500, 30}, {750, 600}}};
-  const Level kLevel = {kPlatforms, {50, 500}};
+  const std::string kLevelsPath =
+      "C:/Cinder/my-projects/final-project-ThailerL/data/levels.json";
 };
 
 }  // namespace visualizer

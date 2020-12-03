@@ -1,16 +1,21 @@
 #include <visualizer/game_app.h>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
 
 namespace game {
 
 namespace visualizer {
 
+using json = nlohmann::json;
 using glm::vec2;
 
 GameApp::GameApp() : window_(Layout::kHorizontal, kMargin) {
   ci::app::setWindowSize((int) kWindowSize.x, (int) kWindowSize.y);
-
-  game_engine_.LoadLevel(kLevel);
+  json levels;
+  std::ifstream levels_stream(kLevelsPath);
+  levels_stream >> levels;
+  game_engine_.LoadLevel(levels[0]);
   window_.Add(std::make_unique<GameDisplay>(game_engine_));
 }
 

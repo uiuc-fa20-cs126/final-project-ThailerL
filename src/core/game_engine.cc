@@ -2,9 +2,14 @@
 #include <algorithm>
 namespace game {
 
-void GameEngine::LoadLevel(const Level& level) {
-  player_ = AABB(kPlayerSize, level.GetPlayerStart(), {0, 0}, {0, kGravity});
-  platforms_ = level.GetPlatforms();
+using json = nlohmann::json;
+
+void GameEngine::LoadLevel(const json& level) {
+  player_ = AABB(kPlayerSize, Vec2(level["start"]), {0, 0}, {0, kGravity});
+  platforms_.clear();
+  for (auto platform : level["platforms"]) {
+    platforms_.emplace_back(Vec2(platform["size"]), Vec2(platform["center"]));
+  }
   player_trying_to_jump_ = false;
 }
 
@@ -21,14 +26,11 @@ void GameEngine::UpdatePressedKeys(const std::vector<int>& key_codes) {
   player_trying_to_jump_ = false;
   for (int code : key_codes) {
     switch (code) {
-      case ci::app::KeyEvent::KEY_w:
-        player_trying_to_jump_ = true;
+      case ci::app::KeyEvent::KEY_w:player_trying_to_jump_ = true;
         break;
-      case ci::app::KeyEvent::KEY_a:
-        player_.Velocity().x = -kPlayerSpeed;
+      case ci::app::KeyEvent::KEY_a:player_.Velocity().x = -kPlayerSpeed;
         break;
-      case ci::app::KeyEvent::KEY_d:
-        player_.Velocity().x = kPlayerSpeed;
+      case ci::app::KeyEvent::KEY_d:player_.Velocity().x = kPlayerSpeed;
         break;
     }
   }
@@ -83,6 +85,10 @@ bool GameEngine::Colliding(const AABB& box1, const AABB& box2) {
       < (box1.Size().x + box2.Size().x)
       && std::abs(box1.Position().y - box2.Position().y) * 2
           < (box1.Size().y + box2.Size().y);
+}
+
+ci::vec2 GameEngine::Vec2(const std::vector<float>& v) {
+  return ci::vec2(v[0], v[1]);
 }
 
 }  // namespace game
