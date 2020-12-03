@@ -5,13 +5,14 @@ namespace game {
 using json = nlohmann::json;
 
 void GameEngine::LoadLevel(const json& level) {
-  player_ = AABB(kPlayerSize, Vec2(level["start"]), {0, 0}, {0, kGravity});
+  player_ = {kPlayerSize, Vec2(level["start"]), {0, 0}, {0, kGravity}};
   level_.size = Vec2(level["size"]);
   level_.platforms.clear();
   for (auto platform : level["platforms"]) {
     level_.platforms.emplace_back(Vec2(platform["size"]),
                                   Vec2(platform["center"]));
   }
+  level_.goal = {Vec2(level["goal"]["size"]), Vec2(level["goal"]["center"])};
   player_trying_to_jump_ = false;
 }
 

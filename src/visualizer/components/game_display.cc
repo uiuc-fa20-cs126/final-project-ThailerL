@@ -19,6 +19,8 @@ void GameDisplay::Draw() const {
   for (const auto& platform : game_engine_.GetLevel().platforms) {
     DrawAABB(platform);
   }
+  ci::gl::color(ci::Color("blue"));
+  DrawAABB(game_engine_.GetLevel().goal);
 }
 
 void GameDisplay::DrawAABB(const AABB& box) const {
