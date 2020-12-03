@@ -21,7 +21,6 @@ class GameApp : public ci::app::App {
   void mouseDown(ci::app::MouseEvent event) override;
 
   const glm::vec2 kWindowSize = {1500.0f, 900.0f};
-  const float kMargin = 10;
 
  private:
   GameEngine game_engine_;

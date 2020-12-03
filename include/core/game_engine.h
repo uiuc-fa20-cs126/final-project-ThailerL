@@ -29,14 +29,17 @@ class GameEngine {
   AABB GetPlayer() const;
   // Gets the level information from the game engine.
   Level GetLevel() const;
+  // Gets the projectile AABB object.
+  AABB GetProjectile() const;
   // Returns true if the player has completed the level.
-  bool GetLevelOver() const;
+  bool LevelOver() const;
   void ShootProjectileTowards(const ci::vec2& target);
 
  private:
   AABB player_;
   Level level_;
   AABB projectile_;
+  bool projectile_active_;
   bool player_trying_to_jump_;
   bool level_over_;
 
@@ -50,13 +53,13 @@ class GameEngine {
 
   const ci::vec2 kPlayerSize = {.3, 1};
   // The horizontal speed of the player.
-  const float kPlayerSpeed = .1f;
+  const float kPlayerSpeed = .06f;
   // The initial vertical velocity of the player when they jump.
-  const float kPlayerJump = .5f;
+  const float kPlayerJump = .3f;
   // The constant vertical acceleration on the player.
-  const float kGravity = -.02f;
+  const float kGravity = -.01f;
   const ci::vec2 kProjectileSize = {.2, .2};
-  const float kProjectileSpeed = 2.0f;
+  const float kProjectileSpeed = .1f;
 };
 
 }  // namespace game

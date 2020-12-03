@@ -1,7 +1,5 @@
 #include <visualizer/game_app.h>
 #include <algorithm>
-#include <iostream>
-#include <fstream>
 
 namespace game {
 
@@ -10,7 +8,7 @@ namespace visualizer {
 using json = nlohmann::json;
 using glm::vec2;
 
-GameApp::GameApp() : window_(Layout::kHorizontal, kMargin) {
+GameApp::GameApp() : window_(Layout::kHorizontal) {
   ci::app::setWindowSize((int) kWindowSize.x, (int) kWindowSize.y);
   json levels;
   std::ifstream levels_stream(kLevelsPath);
@@ -21,13 +19,12 @@ GameApp::GameApp() : window_(Layout::kHorizontal, kMargin) {
 
 void GameApp::draw() {
   ci::gl::clear(ci::Color("white"));
-  window_.SetLocation(vec2(kMargin),
-                      ci::app::getWindowSize() - static_cast<int>(2 * kMargin));
+  window_.SetLocation({0, 0}, ci::app::getWindowSize());
   window_.Draw();
 }
 
 void GameApp::update() {
-  if (!game_engine_.GetLevelOver()) {
+  if (!game_engine_.LevelOver()) {
     game_engine_.Update();
   }
 }
@@ -46,8 +43,11 @@ void GameApp::keyUp(ci::app::KeyEvent event) {
 }
 
 void GameApp::mouseDown(ci::app::MouseEvent event) {
-  if(event.isLeft()) {
-
+  if (event.isLeft() && !game_engine_.LevelOver()) {
+    vec2 pixel_pos = event.getPos();
+    pixel_pos.y = ci::app::getWindowSize().y - pixel_pos.y;
+    game_engine_.ShootProjectileTowards(game_engine_.GetLevel().size *
+        pixel_pos / vec2(ci::app::getWindowSize()));
   }
 }
 

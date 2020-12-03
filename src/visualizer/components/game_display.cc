@@ -21,6 +21,8 @@ void GameDisplay::Draw() const {
   }
   ci::gl::color(ci::Color("blue"));
   DrawAABB(game_engine_.GetLevel().goal);
+  ci::gl::color(ci::Color("purple"));
+  DrawAABB(game_engine_.GetProjectile());
 }
 
 void GameDisplay::DrawAABB(const AABB& box) const {
