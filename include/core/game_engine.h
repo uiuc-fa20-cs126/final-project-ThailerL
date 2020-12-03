@@ -27,8 +27,8 @@ class GameEngine {
   void UpdatePressedKeys(const std::vector<int>& key_codes);
   // Gets the player's AABB object.
   AABB GetPlayer() const;
-  // Gets the collection of AABB platforms in the game.
-  std::vector<AABB> GetPlatforms() const;
+  // Gets the level information from the game engine.
+  Level GetLevel() const;
 
  private:
   AABB player_;
@@ -43,13 +43,13 @@ class GameEngine {
   // Returns a ci::vec2 created by the 2 values in a std::vector.
   static ci::vec2 Vec2(const std::vector<float>& v);
 
-  const ci::vec2 kPlayerSize = {30, 60};
+  const ci::vec2 kPlayerSize = {.3, 1};
   // The horizontal speed of the player.
-  const float kPlayerSpeed = 3;
+  const float kPlayerSpeed = .1f;
   // The initial vertical velocity of the player when they jump.
-  const float kPlayerJump = 6;
+  const float kPlayerJump = .5f;
   // The constant vertical acceleration on the player.
-  const float kGravity = -.1f;
+  const float kGravity = -.02f;
 };
 
 }  // namespace game

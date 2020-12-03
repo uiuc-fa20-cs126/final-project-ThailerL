@@ -42,8 +42,8 @@ AABB GameEngine::GetPlayer() const {
   return player_;
 }
 
-std::vector<AABB> GameEngine::GetPlatforms() const {
-  return level_.platforms;
+GameEngine::Level GameEngine::GetLevel() const {
+  return level_;
 }
 
 void GameEngine::RepelPlayerFromPlatforms() {
