@@ -11,6 +11,12 @@ namespace game {
 // and make the player do actions.
 class GameEngine {
  public:
+  struct Level {
+    ci::vec2 size;
+    std::vector<AABB> platforms;
+    AABB goal;
+  };
+
   // Loads a level and sets up the player and platforms in the level.
   void LoadLevel(const nlohmann::json& json);
   // Updates the game engine by moving the player and all the platforms,
@@ -26,7 +32,7 @@ class GameEngine {
 
  private:
   AABB player_;
-  std::vector<AABB> platforms_;
+  Level level_;
   bool player_trying_to_jump_;
 
   // If the player is touching any platform, the player is pushed too the

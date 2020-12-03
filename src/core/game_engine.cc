@@ -6,9 +6,11 @@ using json = nlohmann::json;
 
 void GameEngine::LoadLevel(const json& level) {
   player_ = AABB(kPlayerSize, Vec2(level["start"]), {0, 0}, {0, kGravity});
-  platforms_.clear();
+  level_.size = Vec2(level["size"]);
+  level_.platforms.clear();
   for (auto platform : level["platforms"]) {
-    platforms_.emplace_back(Vec2(platform["size"]), Vec2(platform["center"]));
+    level_.platforms.emplace_back(Vec2(platform["size"]),
+                                  Vec2(platform["center"]));
   }
   player_trying_to_jump_ = false;
 }
@@ -16,7 +18,7 @@ void GameEngine::LoadLevel(const json& level) {
 void GameEngine::Update() {
   player_.Update();
   RepelPlayerFromPlatforms();
-  for (auto& platform : platforms_) {
+  for (auto& platform : level_.platforms) {
     platform.Update();
   }
 }
@@ -41,11 +43,11 @@ AABB GameEngine::GetPlayer() const {
 }
 
 std::vector<AABB> GameEngine::GetPlatforms() const {
-  return platforms_;
+  return level_.platforms;
 }
 
 void GameEngine::RepelPlayerFromPlatforms() {
-  for (const auto& platform : platforms_) {
+  for (const auto& platform : level_.platforms) {
     if (Colliding(player_, platform)) {
       auto player_feet_y = player_.Position().y - player_.Size().y / 2;
       auto player_head_y = player_.Position().y + player_.Size().y / 2;
