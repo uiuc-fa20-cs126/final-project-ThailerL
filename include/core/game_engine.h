@@ -43,7 +43,7 @@ class GameEngine {
   AABB projectile_;
   bool projectile_active_;
   bool player_trying_to_jump_;
-  bool level_over_;
+  bool level_over_ = true;
 
   std::chrono::steady_clock::time_point start_time_;
 

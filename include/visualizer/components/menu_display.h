@@ -16,7 +16,7 @@ class MenuDisplay : public Component {
   void Draw() const override;
 
  private:
-  const nlohmann::json& game_info_;
+  const nlohmann::json& records_;
 };
 
 }  // namespace visualizer

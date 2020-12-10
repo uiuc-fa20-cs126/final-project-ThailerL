@@ -55,7 +55,8 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/visualizer/game_app.cc
         src/visualizer/components/game_display.cc
         src/visualizer/components/component.cc
-        src/visualizer/components/panel.cc)
+        src/visualizer/components/panel.cc
+        src/visualizer/components/menu_display.cc)
 
 ci_make_app(
         APP_NAME        game

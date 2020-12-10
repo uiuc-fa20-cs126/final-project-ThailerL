@@ -8,22 +8,32 @@ namespace visualizer {
 using json = nlohmann::json;
 using glm::vec2;
 
-GameApp::GameApp() : game_display_(game_engine_) {
+GameApp::GameApp() :
+    levels_(GetJson(kLevelsPath)),
+    game_display_(game_engine_),
+    records_(GetJson(kRecordsPath)),
+    menu_display_(records_) {
   ci::app::setWindowSize((int) kWindowSize.x, (int) kWindowSize.y);
-  json levels;
-  std::ifstream levels_stream(kLevelsPath);
-  levels_stream >> levels;
-  game_engine_.LoadLevel(levels[0]);
+  current_level_ = 0;
+  game_engine_.LoadLevel(levels_[current_level_]);
 }
 
 void GameApp::draw() {
   ci::gl::clear(ci::Color("white"));
-  game_display_.SetLocation({0, 0}, ci::app::getWindowSize());
-  game_display_.Draw();
+  if (game_engine_.LevelOver()) {
+    DrawComponentFullScreen(menu_display_);
+  } else {
+    DrawComponentFullScreen(game_display_);
+  }
 }
 
 void GameApp::update() {
-  if (!game_engine_.LevelOver()) {
+  if (game_engine_.LevelOver()) {
+    if (game_engine_.GetTime() < records_[current_level_]) {
+      records_[current_level_] = game_engine_.GetTime();
+      WriteJsonToFile(records_, kRecordsPath);
+    }
+  } else {
     game_engine_.Update();
   }
 }
@@ -48,6 +58,24 @@ void GameApp::mouseDown(ci::app::MouseEvent event) {
     game_engine_.ShootProjectileTowards(game_engine_.GetLevel().size *
         pixel_pos / vec2(ci::app::getWindowSize()));
   }
+}
+
+nlohmann::json GameApp::GetJson(const std::string& path) const {
+  json json;
+  std::ifstream stream(path);
+  stream >> json;
+  return json;
+}
+
+void GameApp::WriteJsonToFile(const nlohmann::json& json,
+                              const std::string& path) const {
+  std::ofstream stream(path);
+  stream << json;
+}
+
+void GameApp::DrawComponentFullScreen(Component& component) const {
+  component.SetLocation({0, 0}, ci::app::getWindowSize());
+  component.Draw();
 }
 
 }  // namespace visualizer
