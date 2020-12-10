@@ -20,7 +20,7 @@ class GameApp : public ci::app::App {
   void keyUp(ci::app::KeyEvent event) override;
   void mouseDown(ci::app::MouseEvent event) override;
 
-  const glm::vec2 kWindowSize = {1500.0f, 900.0f};
+  const glm::vec2 kWindowSize = {1500.0f, 1000.0f};
 
  private:
   GameEngine game_engine_;

@@ -1,4 +1,6 @@
 #include <visualizer/components/game_display.h>
+#include <iomanip>
+#include <sstream>
 
 namespace game {
 
@@ -23,6 +25,14 @@ void GameDisplay::Draw() const {
   DrawAABB(game_engine_.GetLevel().goal);
   ci::gl::color(ci::Color("purple"));
   DrawAABB(game_engine_.GetProjectile());
+
+  std::stringstream time_stream;
+  time_stream << std::fixed << std::setprecision(2) << game_engine_.GetTime();
+  ci::gl::drawStringRight(time_stream.str(),
+                          vec2(top_left_corner_.x + dimensions_.x / 2,
+                               top_left_corner_.y + 20.0f),
+                          "red",
+                          {"Consolas", 40});
 }
 
 void GameDisplay::DrawAABB(const AABB& box) const {

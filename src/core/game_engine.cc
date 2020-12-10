@@ -16,6 +16,7 @@ void GameEngine::LoadLevel(const json& level) {
   player_trying_to_jump_ = false;
   level_over_ = false;
   projectile_active_ = false;
+  start_time_ = std::chrono::steady_clock::now();
 }
 
 void GameEngine::Update() {
@@ -116,6 +117,12 @@ bool GameEngine::Colliding(const AABB& box1, const AABB& box2) {
       < (box1.Size().x + box2.Size().x)
       && std::abs(box1.Position().y - box2.Position().y) * 2
           < (box1.Size().y + box2.Size().y);
+}
+
+double GameEngine::GetTime() const {
+  auto current_time = std::chrono::steady_clock::now();
+  return (std::chrono::duration_cast<std::chrono::microseconds>(
+      current_time - start_time_).count()) / 1000000.0;
 }
 
 ci::vec2 GameEngine::Vec2(const std::vector<float>& v) {

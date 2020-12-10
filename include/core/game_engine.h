@@ -4,6 +4,7 @@
 #include <cinder/app/KeyEvent.h>
 #include "cinder/gl/gl.h"
 #include <json.hpp>
+#include <chrono>
 
 namespace game {
 
@@ -34,6 +35,7 @@ class GameEngine {
   // Returns true if the player has completed the level.
   bool LevelOver() const;
   void ShootProjectileTowards(const ci::vec2& target);
+  double GetTime() const;
 
  private:
   AABB player_;
@@ -42,6 +44,8 @@ class GameEngine {
   bool projectile_active_;
   bool player_trying_to_jump_;
   bool level_over_;
+
+  std::chrono::steady_clock::time_point start_time_;
 
   // If the player is touching any platform, the player is pushed too the
   // side at which they are touching it so that they don't go into the platform.
