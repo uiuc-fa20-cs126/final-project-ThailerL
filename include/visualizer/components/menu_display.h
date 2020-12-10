@@ -9,7 +9,7 @@ namespace visualizer {
 
 class MenuDisplay : public Component {
  public:
-  MenuDisplay(nlohmann::json game_info,
+  MenuDisplay(const nlohmann::json& records,
               const glm::vec2& top_left_corner = {},
               const glm::vec2& dimensions = {});
 
