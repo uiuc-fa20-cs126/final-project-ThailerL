@@ -30,7 +30,7 @@ void GameDisplay::Draw() const {
   time_stream << std::fixed << std::setprecision(2) << game_engine_.GetTime();
   ci::gl::drawStringRight(time_stream.str(),
                           vec2(top_left_corner_.x + dimensions_.x / 2,
-                               top_left_corner_.y + 20.0f),
+                               top_left_corner_.y + 5.0f),
                           "red",
                           {"Consolas", 40});
 }

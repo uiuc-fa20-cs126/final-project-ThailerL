@@ -24,7 +24,7 @@ class GameApp : public ci::app::App {
 
  private:
   GameEngine game_engine_;
-  Panel window_;
+  GameDisplay game_display_;
   std::vector<int> pressed_key_codes_;
 
   const std::string kLevelsPath =
