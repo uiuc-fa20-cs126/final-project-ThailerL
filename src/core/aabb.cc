@@ -52,4 +52,11 @@ ci::vec2 AABB::Acceleration() const {
   return acceleration_;
 }
 
+bool operator==(const AABB& lhs, const AABB& rhs) {
+  return lhs.Size() == rhs.Size()
+      && lhs.Position() == rhs.Position()
+      && lhs.Velocity() == rhs.Velocity()
+      &&lhs.Acceleration() == rhs.Acceleration();
+}
+
 }  // namespace game

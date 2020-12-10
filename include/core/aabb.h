@@ -36,4 +36,6 @@ class AABB {
   ci::vec2 acceleration_;
 };
 
+bool operator==(const AABB& lhs, const AABB& rhs);
+
 }  // namespace game

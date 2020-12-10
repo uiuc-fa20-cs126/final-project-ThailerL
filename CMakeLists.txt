@@ -58,6 +58,8 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/visualizer/components/panel.cc
         src/visualizer/components/menu_display.cc)
 
+list(APPEND TEST_FILES tests/aabb_test.cc tests/game_engine_test.cc)
+
 ci_make_app(
         APP_NAME        game
         CINDER_PATH     ${CINDER_PATH}
@@ -65,7 +67,15 @@ ci_make_app(
         INCLUDES        include
 )
 
-#if(MSVC)
-#    set_property(TARGET game-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
-#endif()
+ci_make_app(
+        APP_NAME        game-test
+        CINDER_PATH     ${CINDER_PATH}
+        SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
+        INCLUDES        include
+        LIBRARIES       catch2
+)
+
+if(MSVC)
+    set_property(TARGET game-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
+endif()
 
