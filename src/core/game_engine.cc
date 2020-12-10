@@ -15,6 +15,7 @@ void GameEngine::LoadLevel(const json& level) {
   level_.goal = {Vec2(level["goal"]["size"]), Vec2(level["goal"]["center"])};
   player_trying_to_jump_ = false;
   level_over_ = false;
+  projectile_.Position() = {-1, -1};
   projectile_active_ = false;
   start_time_ = std::chrono::steady_clock::now();
 }
@@ -94,18 +95,22 @@ void GameEngine::RepelPlayerFromPlatforms() {
 
       // If the player goes down into the top of the platform, put them at
       // the top of it and jump if they want to, and similar for other cases.
-      if (player_feet_y - player_.Velocity().y >= platform_top_y) {
+      if (player_feet_y - player_.Velocity().y >= platform_top_y
+          && player_.Position().y > platform.Position().y) {
         player_.Velocity().y = 0;
         player_.Position().y = platform_top_y + player_.Size().y / 2;
         if (player_trying_to_jump_) {
           player_.Velocity().y = kPlayerJump;
         }
-      } else if (player_head_y - player_.Velocity().y <= platform_bot_y) {
+      } else if (player_head_y - player_.Velocity().y <= platform_bot_y
+          && player_.Position().y < platform.Position().y) {
         player_.Velocity().y = 0;
         player_.Position().y = platform_bot_y - player_.Size().y / 2;
-      } else if (player_right_x - player_.Velocity().x <= platform_left_x) {
+      } else if (player_right_x - player_.Velocity().x <= platform_left_x
+          && player_.Position().x < platform.Position().x) {
         player_.Position().x = platform_left_x - player_.Size().x / 2;
-      } else if (player_left_x - player_.Velocity().x >= platform_left_x) {
+      } else if (player_left_x - player_.Velocity().x >= platform_left_x
+          && player_.Position().x > platform.Position().x) {
         player_.Position().x = platform_right_x + player_.Size().x / 2;
       }
     }

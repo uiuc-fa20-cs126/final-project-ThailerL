@@ -47,7 +47,8 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
     game_engine_.LoadLevel(levels_[current_level_]);
   }
 
-  if (event.getChar() >= 48 && event.getChar() <= 51) {
+  if (event.getChar() >= 48
+      && event.getChar() < 48 + static_cast<int>(levels_.size())) {
     current_level_ = event.getChar() - 48;
     game_engine_.LoadLevel(levels_[current_level_]);
     in_game_ = true;
