@@ -34,7 +34,9 @@ class GameEngine {
   AABB GetProjectile() const;
   // Returns true if the player has completed the level.
   bool LevelOver() const;
+  // Launches the projectile from the player towards the target.
   void ShootProjectileTowards(const ci::vec2& target);
+  // Gets the time since the level started.
   double GetTime() const;
 
  private:

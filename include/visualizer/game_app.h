@@ -39,9 +39,12 @@ class GameApp : public ci::app::App {
   bool in_game_;
   std::vector<int> pressed_key_codes_;
 
+  // Opens a .json file and loads its contents into a json object.
   nlohmann::json GetJson(const std::string& path) const;
+  // Writes a json object onto a .json file given its path.
   void WriteJsonToFile(const nlohmann::json& json,
                        const std::string& path) const;
+  // Draws a component fully using the window's size.
   void DrawComponentFullScreen(Component& component) const;
 };
 
