@@ -36,6 +36,7 @@ class GameApp : public ci::app::App {
   MenuDisplay menu_display_;
 
   size_t current_level_;
+  bool in_game_;
   std::vector<int> pressed_key_codes_;
 
   nlohmann::json GetJson(const std::string& path) const;

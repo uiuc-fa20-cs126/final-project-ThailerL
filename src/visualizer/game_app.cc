@@ -12,15 +12,14 @@ GameApp::GameApp() :
     levels_(GetJson(kLevelsPath)),
     game_display_(game_engine_),
     records_(GetJson(kRecordsPath)),
-    menu_display_(records_) {
+    menu_display_(records_),
+    in_game_(false) {
   ci::app::setWindowSize((int) kWindowSize.x, (int) kWindowSize.y);
-  current_level_ = 0;
-  game_engine_.LoadLevel(levels_[current_level_]);
 }
 
 void GameApp::draw() {
   ci::gl::clear(ci::Color("white"));
-  if (game_engine_.LevelOver()) {
+  if (!in_game_) {
     DrawComponentFullScreen(menu_display_);
   } else {
     DrawComponentFullScreen(game_display_);
@@ -28,19 +27,31 @@ void GameApp::draw() {
 }
 
 void GameApp::update() {
-  if (game_engine_.LevelOver()) {
-    if (game_engine_.GetTime() < records_[current_level_]) {
-      records_[current_level_] = game_engine_.GetTime();
-      WriteJsonToFile(records_, kRecordsPath);
-    }
-  } else {
+  if (in_game_) {
     game_engine_.Update();
+    if (game_engine_.LevelOver()) {
+      if (game_engine_.GetTime() < records_[current_level_]) {
+        records_[current_level_] = game_engine_.GetTime();
+        WriteJsonToFile(records_, kRecordsPath);
+      }
+      in_game_ = false;
+    }
   }
 }
 
 void GameApp::keyDown(ci::app::KeyEvent event) {
   pressed_key_codes_.push_back(event.getCode());
   game_engine_.UpdatePressedKeys(pressed_key_codes_);
+
+  if (in_game_ && event.getCode() == ci::app::KeyEvent::KEY_r) {
+    game_engine_.LoadLevel(levels_[current_level_]);
+  }
+
+  if (event.getChar() >= 48 && event.getChar() <= 51) {
+    current_level_ = event.getChar() - 48;
+    game_engine_.LoadLevel(levels_[current_level_]);
+    in_game_ = true;
+  }
 }
 
 void GameApp::keyUp(ci::app::KeyEvent event) {
@@ -52,7 +63,7 @@ void GameApp::keyUp(ci::app::KeyEvent event) {
 }
 
 void GameApp::mouseDown(ci::app::MouseEvent event) {
-  if (event.isLeft() && !game_engine_.LevelOver()) {
+  if (event.isLeft() && in_game_) {
     vec2 pixel_pos = event.getPos();
     pixel_pos.y = ci::app::getWindowSize().y - pixel_pos.y;
     game_engine_.ShootProjectileTowards(game_engine_.GetLevel().size *
